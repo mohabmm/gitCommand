@@ -1,0 +1,282 @@
+what is the difference between cenetral remote repository (SVN) and distrubted remote repostory (GIT) ??
+centeral: ( screen shot attached)
+it is located in one place so people checkout when they make changes and then checkback every thing back in
+but this can be problamtic if they cant get access to the ceneral server ( centeral repository) 
+so for example if the server offline or you are working in some place that dont have network connection
+then you only you can see files that you checkout from that repoitory and no additional information 
+about the remote repository
+
+==========================================================================================================
+To clone someone else branch
+git fetch
+git checkout -b Handle_Channel_Details origin/Handle_Channel_Details
+======================================================================================================
+git --version ( for knowing version of github)
+git config --global user.name "mohab magdy"
+git config --global user.email "mohab_31_8@hotmail.com"
+git config --list ( for isting the preexisting configurations)
+git help config ( to know what we can we do with config action)
+(or we can do) 
+gid add --help ( to look into manuals and know what is going there in the doucmentation)
+=====================================================================================================================
+local code base that i want to start upload to git:
+
+git init ( intialise empty repostory)
+rm -rf .git ( if we want to remove our track of git repostory)
+// the above command removes the ".git" file.
+
+git status ( do it before commiting any thing to know the project status)
+touch .gitignore ( this command will create "gitignore" file)
+// git ignore file is text file that we add to it the files we want git to ignore
+
+*.pyc ( this will ignore all the files of "pyc" extention => this file is part of gitignore file that i already
+added just for calarfication)
+ 
+===========================================================================================
+in git we have three parts :
+1) working directory
+2) staging area
+3) the commited files ( repository)
+( i took screen shot here to share with people for more calrafication)
+
+* question for you =) what is the importance of staging area ? 
+answer for you =): we choose what we want to commit from our working directory to put in staging area.
+
+this staging area allow us to commit to the main repostory small chunk files at once 
+you need to commit message of detailed changes you made to the code.
+==========================================================================================
+how to add files to the staging area ????
+git add -A ( to add all the files to the staging area )
+git add .gitignore ( this command will add only ".gitignore" file indvidually)
+git status ( this command will let you know about the status of your command )
+// green means staged , red means not staged or not tracked into staging area.
+git reset calc.py ( remove calc.py  from staging area)
+git reset ( remove every thing from staging area)
+git commit -m "initial commit" ( to commit to repo)
+git log ( to know details about the commit we just made)
+
+now we completely tracked our local project and made changes to the repo and commit changes to it.
+
+=============================================================================================
+how to track existing remote project with git ( workplace)
+CLONING REMOTE REPO:
+
+// git clone "url" "where to clone"
+git clone www.github.com/mohabmmproject D/myproject
+
+git clone https/github.com/mohabmm . 
+
+.=> al no2ta de m3naha al mkan aly ana wa2f feeh
+
+========================================================================================================
+git remote -v ( list information about the remote repo)
+git branch -a ( it will list all the branches in my repo not only locally but remotely as well)
+=======================================================================================
+pushing changes to remote repo:
+git diff ( show me the changes that i have made to the code)
+- "=>" what i removed
++ "=> what i added
+git status
+git add -A
+git status
+git commit -m "multiply function"
+
+how to push these changes to remote repo so other people have access to ?
+git pull origin master ( pull any changes that other people made since we last time woked on the repoitory)
+**** this command the upper one is very important when we are working with other developers on the same project
+git push origin master ( origin is the name of our repoitory and master: is the branch we want to push to)
+=================================================================================================================================
+common workflow:
+git branch calc-divide ( create new branch)
+git checkout calc-divide ( to work on this branch)
+git branch ( will list all the local branches)
+
+**** HOW TO PUSH THIS BRANCH TO THE REMOTE REPOSITORY****
+git push -u origin calc-divide
+: -u : i tell git that i want to assoiate the local branch ( calc-divide) with the remote branch ( calc-divide)
+so in the futur instead of writing all this command i just write "git pull" or "git push".
+
+git branch -a ( to see all of our branches)
+
+why we need to push branches ?
+** many companies wishes to make unit test and other stuff on the code you wrote on the local 
+branch before merging that code with the masetr branch 
+lets assume that all thing works fine AND YOU WANT TO MERGE THAT CODE WITH MASTER
+
+git checkout master
+git pull origin master
+git branch -- merged (this tells us what branches are merged so far)
+git merge calc-divide
+git push origin master ( push these changes to the master branch on the remote repo)
+=================================================================================================
+****HOW TO DELETE THAT BRANCH AFTER MERGING*********************
+git branch --merged ( to check what branches are merged to master )
+git branch -d calc-divide ( to delete the branch locally)
+git branch -a (this will show us all of our bracnhes you will see that we still have calc-divide in our remote repo)
+git push origin --delete calc-divide ( this will delete the branch from the remote repo)
+git branch -a ( you will see that the branch now is not listed after we delete it from remote repo)
+=============================================================================================================== 
+Faster example :
+git branch sunstract 
+git checout substract
+git status
+git add -A
+git commit -m "substract "
+git push -u origin substract
+git checkout master
+git pull origin master
+git merge substract 
+git push origin master
+****** then start the process of deleting the branch**** 
+and then make pull request to your mentor. 
+ 
+===================================================================================================================================
+second series video:
+Fixing common mistakes and undoing Bad Commits:
+=================================================================================================================================
+example : lets say that you made change to file and you want to get back to undo the changes you have made to the file
+this changes you have done it in the local repo code not commited yet.
+
+git status ( you will see that the file is modfifed)
+git diff ( you will the difference in the file)
+git restore lib\main.dart ( git restore filename ) => this will reset the changes you do 
+git add -A
+git commit -m "changes font size"
+***** the question how to undo bad commits messages*******************
+git commit --amend -m "updating the localization libirary"
+
+
+what we did this changes the commit history 
+
+
+===============================================================================
+if others are going to see the changes that i will make then we dont want to change the history 
+of the commits that we made. but if we are only ones that will see the changes we did then changing 
+history is not a bad thing but it is clean 
+by the way we did the upper command we changed the history of the commit that why i said about that info.
+latter we will see how to do that without changing history for not conflicting other users who see our changes
+take care do what i did above and the next work if we havnt pushed changes to other people 
+as doing that will change the coomit history
+
+==============================================================================================================
+what if we missed a file and we forget to commit 
+lets say that we have moha file and we want to add 
+in the last commit part of it not a new commit.
+ex:
+touch moha ( created a new file) 
+
+**** lets assume that we have file and we dont want to make new commit to add this file***
+git commit --amend ( then press enter) ( ignore this coomand)
+
+************ very important scenario *************
+imagine that i made changes while working on master branch and i want these changes to be done 
+on my branch instead of doing it to master branch and also i dont want changes to be relflected to master branch
+how we can do that !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+what we want to do to move commits from one branch to another branch
+
+
+solution: 
+
+
+
+git log ( here you will find the log of the value you want see the commit you made and copy first few lines 
+of the commit)
+git checkout calc.py ( switch to the second branch that we want to transfere the commit to it)
+git log ( to see the logs)
+git cherry-pick  aa2abf272e43 ( this will take the wrong commit from master to calc.py branch)
+*** we need to delete this commit from master branch*********
+git checkout master
+
+*** we have 3 types of git reset : soft , hard , mix
+git log 
+*** take the log of the intial commit 
+git reset --soft wwehwey34343 ( this will take me back to the initial commit)
+git status ( you will find when we used git  soft that the staging commands still exists)
+git reset wwehwey34343 
+git status (it kept the changes but they are in the working directory not in the staging area)
+git reset --hard wwehwey34343 
+git clean -df ( it will get rid of any untracked directory)
+****  git reflog ( it shows us logs histroy)
+
+****** after pressing reflog you will see ogs with there hash and you can take hash of whwere 
+you want to go back to 
+
+git checkout 23232372832  ( the hash you want to go back to after you did get reset hard)
+
+"in order to save this change that we get back to we need to make another branch to 
+save this change to it"
+
+git branch backup
+git checkout master
+git branch 
+git checkout backup
+git log 
+
+=======================================================================================================================
+how to undo some commits when other people have pulled these changes 
+in this situation we dont want to change history of the commit 
+we need to go with revert :
+
+reverse creates new commits that reverses the ffect of old commits 
+so it can be right in history 
+
+git revert wewewesdsdsd ( hash of the commit)
+
+==================================================================================================================================
+git stash :
+it will help us save the changes in temp places and do what you do and then get back to where you at.
+
+git stash save "worked on add function"
+git diff 
+git status  ( no changes)
+git stash list ( to show what stashes i have )
+git stash apply assasas
+*** now  i can go and do what i want ***
+what if i want to go back to the stash scenario that i have we can do that using 2 ways :
+git stash apply sdsdsds ( sdsdsd: is the first part before the message in the stash list before my message)
+git stash list ( you will see that the stash that i get back is stil existing)
+
+*** git stash apply ** it takes all the stash back but it didnt get rid of the stash 
+
+git stash pop ( to get back to stashed work and remove it from stashed list)
+git stash list ( you will find empty list after the pop)
+git stash drop 878787 ( to drop this stash)
+
+git stash clear ( it will removes all of our stashes)
+
+===================================================================================
+another use case for stash :
+imagine that iam on scnario that i made changes to master and i want 
+theses changes to be done on add branch 
+here what i should do :
+
+git stash save "update gitignore"
+git checkout add 
+git stash pop 
+git add -A
+ 
+thats it !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+=======================================================================================================================================
+git add -u ( this command add all deleted and modified files without untracked files to staging area)
+=============================================================================================================================
+when i want to go from one channel to another channel 
+
+flutter channel master 
+* if i found issue 
+
+go to flutter directory and write this command :
+git reset head --hard
+
+
+
+========================================================
+What you don't seem to understand is that you already have the most recent code, which is yours. If what you really want is to see the most recent of someone else's work that's on the master branch, just do:
+
+git fetch upstream
+git checkout upstream/master
+
+
+========================================================
+For Updating github project location 
+git remote set-url origin https://bitbucket.org/32Personalities/front-end-mobile
